@@ -1,0 +1,25 @@
+CREATE TABLE IF NOT EXISTS course (
+    code CHAR(255) PRIMARY KEY UNIQUE,
+    name VARCHAR(255) NOT NULL,
+    lecturer INT,
+    FOREIGN KEY (lecturer) REFERENCES lecturer(id)
+);
+CREATE TABLE IF NOT EXISTS enrollment (
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    course_code CHAR(255) NOT NULL,
+    student_id INT NOT NULL,
+    grade FLOAT,
+    FOREIGN KEY (course_code) REFERENCES course(code),
+    FOREIGN KEY (student_id) REFERENCES student(id)
+);
+CREATE TABLE IF NOT EXISTS lecturer (
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    title VARCHAR(255),
+    name VARCHAR(255) NOT NULL,
+    surname VARCHAR(255) NOT NULL
+);
+CREATE TABLE IF NOT EXISTS student (
+    id INTEGER PRIMARY KEY UNIQUE,
+    name VARCHAR(255) NOT NULL,
+    surname VARCHAR(255) NOT NULL
+);
