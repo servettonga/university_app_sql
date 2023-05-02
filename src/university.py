@@ -2,6 +2,8 @@ import json
 import sqlite3
 from pathlib import Path
 
+from src.customize import Color
+
 
 class University():
     """University app class"""
@@ -11,6 +13,7 @@ class University():
         self.raw_sql_path = raw_sql_path
         with open('src/text.json', 'r') as text:
             self.text = json.load(text)
+        self.colors = Color()
 
     def connect(self) -> None:
         """Connect to database"""
@@ -55,7 +58,14 @@ class University():
             self._run_query('insert_lecturer.sql', {'title': title, 'name': name, 'surname': surname})
         except sqlite3.IntegrityError:
             raise Exception(self.text['create']['lecturer']['lecturer_exists'])
-        print(self.text['create']['lecturer']['successful'])
+        print(self.colors.info + self.text['create']['lecturer']['successful'])
+
+    def update_lecturer(self, lecturer_id: int, title: str, name: str, surname: str) -> None:
+        """Update a lecturer"""
+        self._check_parameters(lecturer_id, title, name, surname)
+        self.get_lecturer(lecturer_id=lecturer_id)
+        self._run_query('update_lecturer.sql', {'id': lecturer_id, 'title': title, 'name': name, 'surname': surname})
+        print(self.colors.info + self.text['update']['lecturer']['successful'])
 
     def create_course(self, course_code: str, course_name: str) -> None:
         """Create a course"""
@@ -65,6 +75,17 @@ class University():
         except sqlite3.IntegrityError:
             raise Exception(self.text['create']['course']['course_exists'])
 
+    def update_course(self, course_code: str, new_code: str, new_name: str) -> None:
+        """Update a course"""
+        self._check_parameters(course_code, new_code, new_name)
+        self.get_course(course_code=course_code)
+        try:
+            self._run_query('update_course.sql', {'code': course_code, 'new_code': new_code, 'new_name': new_name})
+            self._run_query('update_enrollment_course.sql', {'course_code': course_code, 'new_code': new_code})
+        except sqlite3.IntegrityError:
+            raise Exception(self.text['update']['course']['course_exists'])
+        print(self.colors.info + self.text['update']['course']['successful'])
+
     def course_lecturer(self, course_code: str, lecturer_id: int) -> None:
         """Assign a lecturer to a course"""
         self._check_parameters(course_code, lecturer_id)
@@ -73,7 +94,7 @@ class University():
         if self.is_lecturer_assigned(course_code=course_code):
             raise Exception(self.text['update']['assign']['already_assigned'])
         self._run_query('assign_lecturer.sql', {'course_code': course_code, 'lecturer_id': lecturer_id})
-        print(self.text['update']['assign']['successful'])
+        print(self.colors.info + self.text['update']['assign']['successful'])
 
     def create_student(self, name: str, surname: str, id: int) -> None:
         """Create a student"""
@@ -82,13 +103,24 @@ class University():
             self._run_query('insert_student.sql', {'name': name, 'surname': surname, 'id': id})
         except sqlite3.IntegrityError:
             raise Exception(self.text['create']['student']['student_exists'])
-        print(self.text['create']['student']['successful'])
+        print(self.colors.info + self.text['create']['student']['successful'])
+
+    def update_student(self, id: int, new_id: int, name: str, surname: str) -> None:
+        """Update a student"""
+        self._check_parameters(new_id, name, surname, id)
+        self.get_student(student_id=id)
+        try:
+            self._run_query('update_student.sql', {'id': id, 'new_id': new_id, 'name': name, 'surname': surname})
+            self._run_query('update_enrollment_student.sql', {'id': id, 'new_id': new_id})
+        except sqlite3.IntegrityError:
+            raise Exception(self.text['update']['student']['student_exists'])
+        print(self.colors.info + self.text['update']['student']['successful'])
 
     def enroll_student(self, student_id: int, course_code: str) -> None:
         """Enroll a student to a course"""
         if not self.is_enrolled(student_id, course_code):
             self._run_query('insert_enrollment.sql', {'student_id': student_id, 'course_code': course_code})
-            print(self.text['update']['enroll']['successful'])
+            print(self.colors.info + self.text['update']['enroll']['successful'])
         else:
             raise Exception(self.textp['update']['enroll']['already_enrolled'])
 
@@ -101,14 +133,8 @@ class University():
         if self.get_grade(student_id, course_code):
             raise Exception(self.text['create']['grade']['alread_graded'])
         self._run_query('insert_grade.sql', {'student_id': student_id, 'course_code': course_code, 'grade': grade})
-        print(self.text['create']['grade']['successful'])
-
-    def delete_grade(self, student_id: int, course_code: str) -> None:
-        """Delete grade from a student"""
-        self.get_student(student_id=student_id)
-        self.get_course(course_code=course_code)
-        self.get_grade(student_id, course_code)
-        self._run_query('delete_grade.sql', {'student_id': student_id, 'course_code': course_code})
+        if self.get_grade(student_id, course_code) == grade:
+            print(self.colors.info + self.text['create']['grade']['successful'])
 
     def update_grade(self, student_id: int, course_code: str, grade: float) -> None:
         """Update grade from a student"""
@@ -117,6 +143,15 @@ class University():
         if not self.is_enrolled(student_id, course_code):
             raise Exception(self.text['create']['grade']['not_enrolled'])
         self._run_query('update_grade.sql', {'student_id': student_id, 'course_code': course_code, 'grade': grade})
+        if self.get_grade(student_id, course_code) == grade:
+            print(self.colors.info + self.text['update']['grade']['successful'])
+
+    def delete_grade(self, student_id: int, course_code: str) -> None:
+        """Delete grade from a student"""
+        self.get_student(student_id=student_id)
+        self.get_course(course_code=course_code)
+        self.get_grade(student_id, course_code)
+        self._run_query('delete_grade.sql', {'student_id': student_id, 'course_code': course_code})
 
     def get_lecturer(self, lecturer_id: int) -> list:
         """Get lecturer by id"""

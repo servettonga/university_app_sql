@@ -12,8 +12,8 @@
             "5": "Assign a lecturer to a course",
             "6": "Enroll a student to a course",
             "7": "Update lecturer information",
-            "8": "Update student information",
-            "9": "Update course information",
+            "8": "Update course information",
+            "9": "Update student information",
             "10": "Update grade information\n"
         },
         "Print": {
@@ -87,6 +87,32 @@
             "title": "Enroll a student to a course\n",
             "already_enrolled": "The student is already enrolled to the course!",
             "successful": "The student has been enrolled to the course!"
+        },
+
+        "lecturer": {
+            "title": "Update a lecturer's information\n",
+            "successful": "The lecturer's informations's been updated."
+        },
+
+        "course": {
+            "title": "Update a course's information\n",
+            "old_code": "Type the current code for the course to update",
+            "new_code": "\nType new information for the course",
+            "course_exists": "Course already exists!",
+            "successful": "The course's information's been updated."
+        },
+
+        "student": {
+            "title": "Update a student's information\n",
+            "old_id": "Type the current student ID",
+            "new_id": "\nType new information for the student",
+            "student_exists": "The Student ID already exists!",
+            "successful": "The student's infromation's been updated."
+        },
+
+        "grade": {
+            "title": "Update a student's grade",
+            "successful": "The grade's been updated."
         }
     }
 }
