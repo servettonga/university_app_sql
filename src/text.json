@@ -5,12 +5,12 @@
         "Create": {
             "1": "Create a new lecturer",
             "2": "Create a new course",
-            "3": "Assign a lecturer to a course",
-            "4": "Create a new student",
-            "5": "Enroll a student to a course",
-            "6": "Add a new grade for a student\n"
+            "3": "Create a new student",
+            "4": "Add a new grade for a student\n"
         },
         "Update": {
+            "5": "Assign a lecturer to a course",
+            "6": "Enroll a student to a course",
             "7": "Update lecturer information",
             "8": "Update student information",
             "9": "Update course information",
@@ -44,46 +44,49 @@
 
     "get": {
         "lecturer_not_found": "Lecturer not found!",
+        "lecturers_not_found": "There is no lecturer found!",
         "course_not_found": "Course not found!",
-        "course_exists": "Course already exists!",
+        "courses_not_found": "There is no course found!",
         "student_not_found": "Student not found!",
-        "students_not_found": "Students not found!",
-        "enrolled": "The student is enrolled for this course",
-        "not_enrolled": "The student is not enrolled for this course",
-        "alread_graded": "The student is already graded for this course"
+        "students_not_found": "There is no student found!"
     },
 
     "create": {
         "empty_input": "Values can't be empty!",
         "lecturer": {
             "title": "Create a new lecturer\n",
-            "failed": "The lecturer already exists!",
+            "lecturer_exists": "The lecturer already exists!",
             "successful": "The lecturer's information has been created!"
         },
         "course": {
             "title": "Create a new course\n",
+            "course_exists": "Course already exists!",
             "successful": "The course's information has been created!"
         },
         "student": {
             "title": "Create a new student\n",
-            "failed": "The Student ID already exists!",
+            "student_exists": "The Student ID already exists!",
             "successful": "The student's information has been created!"
         },
         "grade": {
             "title": "Add a new grade\n",
+            "not_enrolled": "The student is not enrolled for this course",
+            "alread_graded": "The student is already graded for this course",
             "successful": "The grade has been added!"
         }
     },
 
-    "assign": {
-        "title": "Assign a lecturer to a course\n",
-        "already_assigned": "The course already has a lecturer!",
-        "successful": "The lecturer has been assigned to the course!"
-    },
+    "update": {
+        "assign": {
+            "title": "Assign a lecturer to a course\n",
+            "already_assigned": "The course already has a lecturer!",
+            "successful": "The lecturer has been assigned to the course!"
+        },
 
-    "enroll": {
-        "title": "Enroll a student to a course\n",
-        "failed": "The student is already enrolled to the course!",
-        "successful": "The student has been enrolled to the course!"
+        "enroll": {
+            "title": "Enroll a student to a course\n",
+            "already_enrolled": "The student is already enrolled to the course!",
+            "successful": "The student has been enrolled to the course!"
+        }
     }
 }

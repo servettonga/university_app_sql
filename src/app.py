@@ -1,8 +1,8 @@
 import json
 import os
 import time
-from turtle import st
 
+from src.customize import Color
 from src.university import University
 
 
@@ -20,6 +20,7 @@ class App():
 
         with open('src/text.json', 'r') as text:
             self.text = json.load(text)
+        self.colors = Color()
         self.choices: dict = self.text['choices']
 
     def clear(self, n: int = 0) -> None:
@@ -30,21 +31,21 @@ class App():
         self.base.close()
         exit(0)
 
-    def greet(self) -> None:
+    def run(self) -> None:
         self.clear()
-        print(self.text['greeting'])
+        print(self.colors.primary + self.text['greeting'])
         # for key, value in self.choices.items():
         #     print(f"{key}. {value}")
         for title in self.choices:
-            print(title + " ---------------------------")
+            print(self.colors.primary + f"{title} ---------------------------")
             for choice in self.choices[title]:
-                print(f"{choice}. {self.choices[title][choice]}")
+                print(self.colors.seconday + f"{choice}. {self.choices[title][choice]}")
         print("\n0. Exit")
         try:
-            self.cohice(int(input(self.text['input']['choice'])))
+            self.cohice(int(input(self.colors.primary + self.text['input']['choice'])))
             self.commit_changes()
         except ValueError:
-            print(self.text['input']['invalid'])
+            print(self.colors.warning + self.text['input']['invalid'])
         self.clear(2)
 
     def cohice(self, choice: int) -> None:
@@ -55,13 +56,13 @@ class App():
             case 2:
                 self.create_course()
             case 3:
-                self.assign_lecturer()
-            case 4:
                 self.create_student()
-            case 5:
-                self.enroll_student()
-            case 6:
+            case 4:
                 self.add_grade()
+            case 5:
+                self.assign_lecturer()
+            case 6:
+                self.enroll_student()
             case 7:
                 self.update_student()
             case 8:
@@ -84,68 +85,67 @@ class App():
         self.base.commit()
 
     def create_lecturer(self) -> None:
-        print(self.text['create']['lecturer']['title'])
-        title: str = input(self.text['data']['title']).capitalize()
+        print(self.colors.primary + self.text['create']['lecturer']['title'])
+        title: str = input(self.colors.seconday + self.text['data']['title']).capitalize()
         name: str = input(self.text['data']['name']).capitalize()
         surname: str = input(self.text['data']['surname']).capitalize()
         try:
             self.base.create_lecturer(title=title, name=name, surname=surname)
         except Exception as e:
-            print(e)
+            print(self.colors.warning + str(e))
             return
 
     def create_course(self) -> None:
-        print(self.text['create']['course']['title'])
-        code: str = input(self.text['data']['course_code']).upper()
+        print(self.colors.primary + self.text['create']['course']['title'])
+        code: str = input(self.colors.seconday + self.text['data']['course_code']).upper()
         name: str = input(self.text['data']['course_name']).capitalize()
         try:
             self.base.create_course(course_code=code, course_name=name)
         except Exception as e:
-            print(e)
+            print(self.colors.warning + str(e))
             return
         print(self.text['create']['course']['successful'])
 
     def assign_lecturer(self) -> None:
-        print(self.text['assign']['title'])
-        course_code: str = input(self.text['data']['course_code']).upper()
-        lecturer_id: int = int(input(self.text["data"]["lecturer_id"]))
+        print(self.colors.primary + self.text['update']['assign']['title'])
+        course_code: str = input(self.colors.seconday + self.text['data']['course_code']).upper()
+        lecturer_id: int = int(input(self.text['data']['lecturer_id']))
         try:
             self.base.get_lecturer(lecturer_id=lecturer_id)
             self.base.get_course(course_code=course_code)
             self.base.course_lecturer(course_code=course_code, lecturer_id=lecturer_id)
         except Exception as e:
-            print(e)
+            print(self.colors.warning + str(e))
             return
-        print(self.text['assign']['successful'])
 
     def create_student(self) -> None:
-        print(self.text['create']['student']['title'])
-        id: int = int(input(self.text['data']['student_id']))
+        print(self.colors.primary + self.text['create']['student']['title'])
+        id: int = int(input(self.colors.seconday + self.text['data']['student_id']))
         name: str = input(self.text['data']['name']).capitalize()
         surname: str = input(self.text['data']['surname']).capitalize()
         try:
             self.base.create_student(name=name, surname=surname, id=id)
         except Exception as e:
-            print(e)
+            print(self.colors.warning + str(e))
             return
 
     def enroll_student(self) -> None:
-        print(self.text['enroll']['title'])
-        student_id: int = int(input(self.text['data']['student_id']))
+        print(self.colors.primary + self.text['update']['enroll']['title'])
+        student_id: int = int(input(self.colors.seconday + self.text['data']['student_id']))
         course_code: str = input(self.text['data']['course_code']).upper()
         try:
             self.base.enroll_student(student_id=student_id, course_code=course_code)
         except Exception as e:
-            print(e)
+            print(self.colors.warning + str(e))
             return
 
     def add_grade(self) -> None:
-        print(self.text['create']['grade']['title'])
-        student_id: int = int(input(self.text['data']['student_id']))
+        print(self.colors.primary + self.text['create']['grade']['title'])
+        student_id: int = int(input(self.colors.seconday + self.text['data']['student_id']))
         course_code: str = input(self.text['data']['course_code']).upper()
         grade_input: float = float(input(self.text['data']['grade']))
         try:
             self.base.add_grade(student_id=student_id, course_code=course_code, grade=grade_input)
         except Exception as e:
-            print(e)
+            print(self.colors.warning + str(e))
             return

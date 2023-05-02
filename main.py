@@ -7,7 +7,7 @@ from src.app import App
 def main() -> None:
     app = App()
     while True:
-        app.greet()
+        app.run()
 
 if __name__ == '__main__':
     main()
