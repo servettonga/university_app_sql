@@ -4,5 +4,5 @@ SELECT course.code,
     lecturer.name,
     lecturer.surname
 FROM course
-    INNER JOIN lecturer ON course.lecturer = lecturer.id
-WHERE code = :code;
+    LEFT JOIN lecturer ON course.lecturer = lecturer.id
+WHERE code = :course_code;
