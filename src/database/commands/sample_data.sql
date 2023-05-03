@@ -1,27 +1,31 @@
-CREATE TABLE IF NOT EXISTS course (
+DROP TABLE IF EXISTS lecturer;
+DROP TABLE IF EXISTS course;
+DROP TABLE IF EXISTS student;
+DROP TABLE IF EXISTS enrollment;
+CREATE TABLE lecturer (
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    title VARCHAR(255),
+    name VARCHAR(255) NOT NULL,
+    surname VARCHAR(255) NOT NULL
+);
+CREATE TABLE course (
     code CHAR(255) PRIMARY KEY UNIQUE,
     name VARCHAR(255) NOT NULL,
     lecturer INT,
     FOREIGN KEY (lecturer) REFERENCES lecturer(id)
 );
-CREATE TABLE IF NOT EXISTS enrollment (
+CREATE TABLE student (
+    id INTEGER PRIMARY KEY UNIQUE,
+    name VARCHAR(255) NOT NULL,
+    surname VARCHAR(255) NOT NULL
+);
+CREATE TABLE enrollment (
     id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     course_code CHAR(255) NOT NULL,
     student_id INT NOT NULL,
     grade FLOAT,
     FOREIGN KEY (course_code) REFERENCES course(code),
     FOREIGN KEY (student_id) REFERENCES student(id)
-);
-CREATE TABLE IF NOT EXISTS lecturer (
-    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-    title VARCHAR(255),
-    name VARCHAR(255) NOT NULL,
-    surname VARCHAR(255) NOT NULL
-);
-CREATE TABLE IF NOT EXISTS student (
-    id INTEGER PRIMARY KEY UNIQUE,
-    name VARCHAR(255) NOT NULL,
-    surname VARCHAR(255) NOT NULL
 );
 INSERT INTO lecturer (title, name, surname)
 VALUES ('Dr.', 'John', 'Smith'),

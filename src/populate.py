@@ -1,3 +1,4 @@
+import json
 import sqlite3
 from pathlib import Path
 
@@ -5,10 +6,13 @@ from pathlib import Path
 class Populate:
     def __init__(self) -> None:
         # Load configurations
-        self.database = 'database/university.db'
-        self.sql_command = Path('database/commands/sample_data.sql').read_text()
+        with open('src/config.json', 'r') as config_file:
+            self.config = json.load(config_file)
+        self.database = self.config['database']
+        self.database = 'src/database/university.db'
+        self.sql_command = Path(self.config['sql_commands'] + 'sample_data.sql').read_text()
 
-    def populate_sample_data(self):
+    def populate_sample_data(self) -> None:
         # Connect to database
         conn = sqlite3.connect(self.database)
         c = conn.cursor()
@@ -26,6 +30,6 @@ if __name__ == '__main__':
     populate.populate_sample_data()
     print('Sample data populated successfully')
     print('Database: ' + populate.database)
-    print('SQL commands: ' + populate.sql_command)
+    print('SQL commands: ' + 'sample_data.sql')
     print('Done')
     exit(0)
