@@ -5,12 +5,12 @@
         "Create": {
             "1": "Create a new lecturer",
             "2": "Create a new course",
-            "3": "Create a new student"
+            "3": "Create a new student\n"
         },
         "Update": {
             "4": "Assign a lecturer to a course",
             "5": "Enroll a student to a course",
-            "6": "Add a new grade for a student\n",
+            "6": "Add a new grade for a student",
             "7": "Update lecturer information",
             "8": "Update course information",
             "9": "Update student information",

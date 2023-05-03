@@ -1,4 +1,5 @@
 {
     "database": "src/database/university.db",
-    "sql_commands": "src/database/commands/"
+    "sql_commands": "src/database/commands/",
+    "delay": 1
 }

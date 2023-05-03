@@ -13,6 +13,8 @@ class University():
         self.raw_sql_path = raw_sql_path
         with open('src/text.json', 'r') as text:
             self.text = json.load(text)
+        self.connect()
+        self.__create_tables()
 
     def connect(self) -> None:
         """Connect to database"""
@@ -30,7 +32,6 @@ class University():
     def __run_query(self, raw_sql: str, placeholder: dict = {}) -> None:
         """Run query"""
         raw_sql_path = Path(self.raw_sql_path + raw_sql).read_text()
-
         self.cursor.execute(raw_sql_path, placeholder)
         self.commit()
 
@@ -40,12 +41,12 @@ class University():
             if str(arg) == '':
                 raise Exception(self.text['create']['empty_input'])
 
-    def create_tables(self) -> None:
+    def __create_tables(self) -> None:
         """Create tables if not exists"""
         raw_sql_path = Path(self.raw_sql_path + 'create_tables.sql').read_text()
         self.cursor.executescript(raw_sql_path)
 
-    def drop_tables(self) -> None:
+    def __drop_tables(self) -> None:
         """Drop tables if exists"""
         self.__run_query('drop_tables.sql')
 
@@ -116,6 +117,7 @@ class University():
 
     def enroll_student(self, student_id: int, course_code: str) -> None:
         """Enroll a student to a course"""
+        self.__check_parameters(student_id, course_code)
         if not self.is_enrolled(student_id, course_code):
             self.__run_query('insert_enrollment.sql', {'student_id': student_id, 'course_code': course_code})
             print(Color.info + self.text['update']['enroll']['successful'])
@@ -124,6 +126,7 @@ class University():
 
     def add_grade(self, student_id: int, course_code: str, grade: float) -> None:
         """Add grade to a student"""
+        self.__check_parameters(student_id, course_code, grade)
         self.get_student(student_id=student_id)
         self.get_course(course_code=course_code)
         if not self.is_enrolled(student_id, course_code):
@@ -143,13 +146,6 @@ class University():
         self.__run_query('update_grade.sql', {'student_id': student_id, 'course_code': course_code, 'grade': grade})
         if self.get_grade(student_id, course_code) == grade:
             print(Color.info + self.text['update']['grade']['successful'])
-
-    def delete_grade(self, student_id: int, course_code: str) -> None:
-        """Delete grade from a student"""
-        self.get_student(student_id=student_id)
-        self.get_course(course_code=course_code)
-        self.get_grade(student_id, course_code)
-        self.__run_query('delete_grade.sql', {'student_id': student_id, 'course_code': course_code})
 
     def get_lecturer(self, lecturer_id: int) -> list:
         """Get lecturer by id"""

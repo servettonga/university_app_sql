@@ -9,15 +9,16 @@ from src.university import University
 class App():
 
     def __init__(self) -> None:
+        # Load configurations
         with open('src/config.json', 'r') as config_file:
             self.config = json.load(config_file)
         self.database = self.config['database']
         self.raw_sql_path = self.config['sql_commands']
 
+        # Create University App
         self.base = University(self.database, self.raw_sql_path)
-        self.base.connect()
-        self.base.create_tables()
 
+        # Load texts
         with open('src/text.json', 'r') as text:
             self.text = json.load(text)
         self.choices: dict = self.text['choices']
@@ -49,7 +50,7 @@ class App():
             self.__commit_changes()
         except ValueError:
             print(Color.warning + self.text['input']['invalid'])
-        self.__clear(2)
+        self.__clear(self.config['delay'])
 
     def __cohice(self, choice: int) -> None:
         """List of methods to be used by user"""
