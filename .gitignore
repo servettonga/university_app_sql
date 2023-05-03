@@ -131,4 +131,4 @@ dmypy.json
 .pyre/
 
 # database
-*.db
+src/database/university.db

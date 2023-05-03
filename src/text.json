@@ -5,30 +5,31 @@
         "Create": {
             "1": "Create a new lecturer",
             "2": "Create a new course",
-            "3": "Create a new student",
-            "4": "Add a new grade for a student\n"
+            "3": "Create a new student"
         },
         "Update": {
-            "5": "Assign a lecturer to a course",
-            "6": "Enroll a student to a course",
+            "4": "Assign a lecturer to a course",
+            "5": "Enroll a student to a course",
+            "6": "Add a new grade for a student\n",
             "7": "Update lecturer information",
             "8": "Update course information",
             "9": "Update student information",
             "10": "Update grade information\n"
         },
         "Print": {
-            "11": "Lecturer information",
-            "12": "All lecturers",
-            "13": "Student information",
-            "14": "All students",
-            "15": "Course information",
-            "16": "All courses"
+            "11": "Find lecturer by name",
+            "12": "Print all lecturers",
+            "13": "Course information",
+            "14": "Print all courses",
+            "15": "Find student by ID",
+            "16": "Print all students"
         }
     },
 
     "input": {
         "choice": "\nYour choice: ",
-        "invalid": "Invalid input!"
+        "invalid": "Invalid input!",
+        "continue": "\nPress a key to continue..."
     },
 
     "data": {
@@ -111,8 +112,24 @@
         },
 
         "grade": {
-            "title": "Update a student's grade",
+            "title": "Update a student's grade\n",
             "successful": "The grade's been updated."
         }
+    },
+
+    "print": {
+        "result": "\nSearch result: ",
+        "lecturer": "Find a lecturer by name\n",
+        "lecturers": "Print all lecturers information\n",
+        "not_assigned": "The lecturer is not assigned to any course",
+        "course": "Find a course's information by code\n",
+        "courses": "Print all courses information\n",
+        "enrolled_students": "\nStudents Enrolled:",
+        "without_lecturer": "Lecturer: Not assigned",
+        "student": "Find a student by ID\n",
+        "students": "Print all students\n",
+        "not_enrolled": "The student is not enrolled to any course",
+        "course_students": "Print all students enrolled to a course\n",
+        "grade": "Print a student's grade for a course\n"
     }
 }

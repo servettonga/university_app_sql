@@ -1,3 +1,3 @@
 SELECT *
 FROM student
-WHERE id = :id;
+WHERE student.id = :id;

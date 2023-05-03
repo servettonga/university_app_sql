@@ -1,5 +1,3 @@
-SELECT lecturer.title,
-    lecturer.name,
-    lecturer.surname
+SELECT *
 FROM lecturer
 ORDER BY id;
