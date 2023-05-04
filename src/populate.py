@@ -9,7 +9,6 @@ class Populate:
         with open('src/config.json', 'r') as config_file:
             self.config = json.load(config_file)
         self.database = self.config['database']
-        self.database = 'src/database/university.db'
         self.sql_command = Path(self.config['sql_commands'] + 'sample_data.sql').read_text()
 
     def populate_sample_data(self) -> None:

@@ -1,6 +1,6 @@
 {
-    "database": "src/database/university.db",
-    "temp_db": "src/database/temp.db",
+    "database": "src/database/file:cachedb?mode=memory&cache=shared",
+    "temp_db": "file:cachedb?mode=memory&cache=shared",
     "sql_commands": "src/database/commands/",
     "delay": 1
 }

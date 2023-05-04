@@ -45,11 +45,13 @@ class University():
         """Create tables if not exists"""
         raw_sql_path = Path(self.raw_sql_path + 'create_tables.sql').read_text()
         self.cursor.executescript(raw_sql_path)
+        self.commit()
 
     def _drop_tables(self) -> None:
         """Drop tables if exists"""
         raw_sql_path = Path(self.raw_sql_path + 'drop_tables.sql').read_text()
         self.cursor.executescript(raw_sql_path)
+        self.commit()
 
     def create_lecturer(self, title: str, name: str, surname: str) -> None:
         """Create a lecturer"""
@@ -74,6 +76,7 @@ class University():
             self.__run_query('insert_course.sql', {'code': course_code, 'name': course_name})
         except sqlite3.IntegrityError:
             raise Exception(self.text['create']['course']['course_exists'])
+        print(Color.info + self.text['create']['course']['successful'])
 
     def update_course(self, course_code: str, new_code: str, new_name: str) -> None:
         """Update a course"""

@@ -132,3 +132,5 @@ dmypy.json
 
 # database
 *.db
+file:cachedb?mode=memory
+file:cachedb?mode=memory&cache=shared
