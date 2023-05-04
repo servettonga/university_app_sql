@@ -110,7 +110,7 @@ class University():
 
     def update_student(self, id: int, new_id: int, name: str, surname: str) -> None:
         """Update a student"""
-        self.__check_parameters(new_id, name, surname, id)
+        self.__check_parameters(name, surname, id)
         self.get_student(student_id=id)
         try:
             self.__run_query('update_student.sql', {'id': id, 'new_id': new_id, 'name': name, 'surname': surname})
@@ -126,7 +126,7 @@ class University():
             self.__run_query('insert_enrollment.sql', {'student_id': student_id, 'course_code': course_code})
             print(Color.info + self.text['update']['enroll']['successful'])
         else:
-            raise Exception(self.textp['update']['enroll']['already_enrolled'])
+            raise Exception(self.text['update']['enroll']['already_enrolled'])
 
     def add_grade(self, student_id: int, course_code: str, grade: float) -> None:
         """Add grade to a student"""
@@ -147,6 +147,8 @@ class University():
         self.get_course(course_code=course_code)
         if not self.is_enrolled(student_id, course_code):
             raise Exception(self.text['create']['grade']['not_enrolled'])
+        if not self.get_grade(student_id, course_code):
+            raise Exception(self.text['update']['grade']['not_graded'])
         self.__run_query('update_grade.sql', {'student_id': student_id, 'course_code': course_code, 'grade': grade})
         if self.get_grade(student_id, course_code) == grade:
             print(Color.info + self.text['update']['grade']['successful'])
@@ -232,7 +234,7 @@ class University():
         self.get_student(student_id=id)
         self.get_course(course_code=code)
         self.__run_query('select_enrolled_student.sql', {'student_id': id, 'course_code': code})
-        return self.cursor.fetchall()
+        return len(self.cursor.fetchall()) > 0
 
     def get_grade(self, student_id: int, course_code: str) -> list:
         """Get grade by student and course"""

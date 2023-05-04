@@ -1,5 +1,8 @@
 UPDATE student
-SET id = :new_id,
+SET id = CASE
+        WHEN :id = :new_id THEN id
+        ELSE :new_id
+    END,
     name = :name,
     surname = :surname
-WHERE id = id;
+WHERE id = :id;

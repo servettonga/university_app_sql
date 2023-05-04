@@ -19,7 +19,7 @@ def text():
         text = json.load(text)
     return text
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope='function')
 def populated(text):
     # Create University App
     university = University(university_db, raw_sql_path)

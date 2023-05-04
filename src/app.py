@@ -197,11 +197,11 @@ class App():
         print(Color.primary + self.text['update']['student']['old_id'])
         id: int = int(input(Color.seconday + self.text['data']['student_id']))
         print(Color.primary + self.text['update']['student']['new_id'])
-        new_id: int = int(input(Color.seconday + self.text['data']['student_id']))
+        new_id = (input(Color.seconday + self.text['data']['student_id'])) or id
         name: str = input(self.text['data']['name']).capitalize()
         surname: str = input(self.text['data']['surname']).capitalize()
         try:
-            self.base.update_student(id=id, new_id=new_id, name=name, surname=surname)
+            self.base.update_student(id=id, new_id=int(new_id), name=name, surname=surname)
         except Exception as e:
             print(Color.warning + str(e))
             return

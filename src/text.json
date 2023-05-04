@@ -113,6 +113,7 @@
 
         "grade": {
             "title": "Update a student's grade\n",
+            "not_graded": "The student's not graded for this course",
             "successful": "The grade's been updated."
         }
     },
