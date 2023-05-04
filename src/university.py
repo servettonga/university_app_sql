@@ -14,7 +14,7 @@ class University():
         with open('src/text.json', 'r') as text:
             self.text = json.load(text)
         self.connect()
-        self.__create_tables()
+        self._create_tables()
 
     def connect(self) -> None:
         """Connect to database"""
@@ -41,14 +41,15 @@ class University():
             if str(arg) == '':
                 raise Exception(self.text['create']['empty_input'])
 
-    def __create_tables(self) -> None:
+    def _create_tables(self) -> None:
         """Create tables if not exists"""
         raw_sql_path = Path(self.raw_sql_path + 'create_tables.sql').read_text()
         self.cursor.executescript(raw_sql_path)
 
-    def __drop_tables(self) -> None:
+    def _drop_tables(self) -> None:
         """Drop tables if exists"""
-        self.__run_query('drop_tables.sql')
+        raw_sql_path = Path(self.raw_sql_path + 'drop_tables.sql').read_text()
+        self.cursor.executescript(raw_sql_path)
 
     def create_lecturer(self, title: str, name: str, surname: str) -> None:
         """Create a lecturer"""
@@ -150,9 +151,10 @@ class University():
     def get_lecturer(self, lecturer_id: int) -> list:
         """Get lecturer by id"""
         self.__run_query('select_lecturer.sql', {'id': lecturer_id})
-        if not self.cursor.fetchall():
+        result = self.cursor.fetchall()
+        if not result:
             raise Exception(self.text['get']['lecturer_not_found'])
-        return self.cursor.fetchone()
+        return result
 
     def get_lecturers(self) -> list:
         """Get all lecturers"""
@@ -200,15 +202,6 @@ class University():
             raise Exception(self.text['get']['courses_not_found'])
         return result
 
-    def get_courses_by_lecturer(self, lecturer_id: int) -> list:
-        """Get all courses by lecturer"""
-        self.get_lecturer(lecturer_id=lecturer_id)
-        self.__run_query('select_courses_by_lecturer.sql', {'lecturer_id': lecturer_id})
-        result = self.cursor.fetchall()
-        if not result:
-            raise Exception(self.text['get']['courses_not_found'])
-        return result
-
     def get_student(self, student_id: int) -> list:
         """Get student by id"""
         self.__run_query('select_student.sql', {'id': student_id})
@@ -238,24 +231,12 @@ class University():
         self.__run_query('select_enrolled_student.sql', {'student_id': id, 'course_code': code})
         return self.cursor.fetchall()
 
-    def get_students_by_course(self, course_code: str) -> list:
-        """Get all students by course"""
-        self.get_course(course_code=course_code)
-        self.__run_query('select_students_by_course.sql', {'course_code': course_code})
-        return self.cursor.fetchall()
-
     def get_grade(self, student_id: int, course_code: str) -> list:
         """Get grade by student and course"""
         self.get_student(student_id=student_id)
         self.get_course(course_code=course_code)
         self.__run_query('select_grade.sql', {'student_id': student_id, 'course_code': course_code})
         return self.cursor.fetchone()[0]
-
-    def get_student_grades(self, student_id: int) -> list:
-        """Get all grades by student"""
-        self.get_student(student_id=student_id)
-        self.__run_query('select_student_grades.sql', {'student_id': student_id})
-        return self.cursor.fetchall()
 
     def get_course_grades(self, course_code: str) -> list:
         """Get all grades by course"""

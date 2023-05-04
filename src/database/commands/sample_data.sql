@@ -31,13 +31,16 @@ INSERT INTO lecturer (title, name, surname)
 VALUES ('Dr.', 'John', 'Smith'),
     ('Prof.', 'Jane', 'Doe'),
     ('Dr.', 'Michael', 'Johnson'),
-    ('Prof.', 'Sarah', 'Lee');
+    ('Prof.', 'Sarah', 'Lee'),
+    ('Dr.', 'William', 'Williams'),
+    ('Prof.', 'Ava', 'Jones');
 INSERT INTO course (code, name, lecturer)
 VALUES ('CS101', 'Introduction to CS', 1),
     ('CS102', 'Data Structures and Algos', 2),
     ('CS103', 'Computer Networks', 3),
     ('CS104', 'Operating Systems', 4),
-    ('CS105', 'Artificial Intelligence', 5);
+    ('CS105', 'Artificial Intelligence', 5),
+    ('CS106', 'EMPTY COURSE', NULL);
 INSERT INTO student (id, name, surname)
 VALUES ('20230001', 'Mike', 'Doe'),
     ('20230002', 'Samantha', 'Doe'),
@@ -61,8 +64,7 @@ VALUES ('20230001', 'CS101', 4.5),
     ('20230001', 'CS102', 3.2),
     ('20230001', 'CS103', 2.7),
     ('20230001', 'CS104', 4.0),
-    ('20230001', 'CS105', 3.8),
-    ('20230002', 'CS101', 3.5),
+    ('20230002', 'CS101', NULL),
     ('20230002', 'CS102', 4.2),
     ('20230002', 'CS103', 3.7),
     ('20230002', 'CS104', 4.5),
@@ -141,9 +143,4 @@ VALUES ('20230001', 'CS101', 4.5),
     ('20230017', 'CS102', 4.5),
     ('20230017', 'CS103', 4.7),
     ('20230017', 'CS104', 4.0),
-    ('20230017', 'CS105', 4.5),
-    ('20230018', 'CS101', 3.5),
-    ('20230018', 'CS102', 3.2),
-    ('20230018', 'CS103', 2.7),
-    ('20230018', 'CS104', 3.0),
-    ('20230018', 'CS105', 3.8);
+    ('20230017', 'CS105', 4.5);

@@ -28,7 +28,7 @@
 
     "input": {
         "choice": "\nYour choice: ",
-        "invalid": "Invalid input!",
+        "invalid": "\nInvalid input!",
         "continue": "\nPress a key to continue..."
     },
 
@@ -53,7 +53,7 @@
     },
 
     "create": {
-        "empty_input": "Values can't be empty!",
+        "empty_input": "\nValues can't be empty!",
         "lecturer": {
             "title": "Create a new lecturer\n",
             "lecturer_exists": "The lecturer already exists!",
